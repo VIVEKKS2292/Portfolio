@@ -1,0 +1,112 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Base Reset ─── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --bg: #0a0a0a;
+  --surface: #111111;
+  --surface-2: #1a1a1a;
+  --text-primary: #f0ede8;
+  --text-secondary: #8a8580;
+  --text-muted: #4a4744;
+  --accent: #c8a96e;
+  --accent-dim: #8a7048;
+  /* 5% surprise accent — electric teal */
+  --accent-spark: #00c9a7;
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ─── Typography Utilities ─── */
+.font-display {
+  font-family: 'Space Grotesk', sans-serif;
+}
+
+.font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* ─── Cinematic Text Reveal ─── */
+.text-clip {
+  overflow: hidden;
+}
+
+/* ─── Custom Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--text-muted);
+  border-radius: 2px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-spark);
+}
+
+/* ─── Section base ─── */
+section {
+  position: relative;
+}
+
+/* ─── Accent line ─── */
+.accent-line {
+  width: 40px;
+  height: 1px;
+  background: var(--accent);
+  display: inline-block;
+}
+
+/* ─── Reduced motion ─── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ─── Focus styles ─── */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ─── Selection ─── */
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+/* ─── Horizontal scroll container ─── */
+.horizontal-section {
+  display: flex;
+  flex-direction: row;
+  will-change: transform;
+}
