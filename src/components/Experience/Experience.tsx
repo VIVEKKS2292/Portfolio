@@ -19,7 +19,7 @@ export default function Experience() {
           className="font-mono text-xs tracking-[0.25em] text-[#c8a96e] block mb-6"
           initial={{ opacity: 0 }}
           animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.5 }}
         >
           03 / EXPERIENCE
         </motion.span>
@@ -32,14 +32,14 @@ export default function Experience() {
         >
           WHAT I
           <br />
-          <span className="text-[#c8a96e]">ACTUALLY DO</span>
+          <span className="text-[#c8a96e]">WORK NOW</span>
         </motion.h2>
 
         <motion.p
-          className="font-body text-[#8a8580] text-base mb-16 max-w-lg"
-          initial={{ opacity: 0 }}
-          animate={inView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.8, delay: 0.25 }}
+          className="font-body text-[#8a8580] text-lg max-w-xl mb-16 leading-relaxed"
+          initial={{ opacity: 0, y: 20 }}
+          animate={inView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.2 }}
         >
           Building enterprise applications at Lennox India Technology Centre.
         </motion.p>
@@ -51,12 +51,12 @@ export default function Experience() {
               className="flex flex-col md:flex-row md:items-end gap-2 md:gap-8 mb-10 pb-4 border-b border-[#1a1a1a]"
               initial={{ opacity: 0, y: 20 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.7, delay: 0.3 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
             >
               <h3 className="font-display text-2xl md:text-3xl font-semibold text-[#f0ede8]">
                 {entry.company}
               </h3>
-              <span className="font-mono text-xs tracking-[0.15em] text-[#4a4744]">
+              <span className="font-mono text-xs tracking-[0.2em] text-[#4a4744]">
                 {entry.location}
               </span>
             </motion.div>

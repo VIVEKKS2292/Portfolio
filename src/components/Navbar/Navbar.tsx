@@ -1,38 +1,41 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useScrollNavContext } from '../../hooks/ScrollNavContext';
 
+/* Maps nav link hrefs to section IDs (without the #) */
 const navLinks = [
-  { href: '#work', label: 'WORK' },
-  { href: '#projects', label: 'PROJECTS' },
-  { href: '#experiments', label: 'EXPERIMENTS' },
-  { href: '#dump', label: 'DUMP' },
-  { href: '#about', label: 'ABOUT' },
+  { href: 'about',       label: 'ABOUT' },
+  { href: 'work',        label: 'WORK' },
+  { href: 'projects',    label: 'PROJECTS' },
+  { href: 'experiments', label: 'EXPERIMENTS' },
+  { href: 'dump',        label: 'DUMP' },
 ];
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { activeIndex, navigateTo, sectionIds } = useScrollNavContext();
 
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 80);
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+  // On desktop, use context; on mobile (normal scroll), fall back to anchor
+  const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, sectionId: string) => {
     e.preventDefault();
-    const target = document.querySelector(href);
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth' });
+    const idx = sectionIds.indexOf(sectionId);
+    if (idx !== -1) {
+      navigateTo(idx);
+    } else {
+      // Mobile fallback — scroll into view
+      const el = document.getElementById(sectionId);
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
     }
     setMobileOpen(false);
   };
+
+  const scrolled = activeIndex > 0;
 
   return (
     <>
       {/* Desktop nav */}
       <motion.header
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        className={`fixed top-0 left-0 right-0 z-[150] transition-all duration-500 ${
           scrolled ? 'py-4' : 'py-6'
         }`}
         initial={{ opacity: 0, y: -20 }}
@@ -49,7 +52,7 @@ export default function Navbar() {
           {/* Logo */}
           <a
             href="#hero"
-            onClick={(e) => handleNavClick(e, '#hero')}
+            onClick={(e) => handleNavClick(e, 'hero')}
             className="font-display font-semibold text-[#f0ede8] text-sm tracking-[0.2em] hover:text-[#c8a96e] transition-colors duration-300"
             aria-label="Vivek K Saklathi - Home"
           >
@@ -58,16 +61,24 @@ export default function Navbar() {
 
           {/* Desktop links */}
           <nav className="hidden md:flex items-center gap-8" aria-label="Main navigation">
-            {navLinks.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={(e) => handleNavClick(e, link.href)}
-                className="font-mono text-xs tracking-[0.15em] text-[#8a8580] hover:text-[#f0ede8] transition-colors duration-300"
-              >
-                {link.label}
-              </a>
-            ))}
+            {navLinks.map((link) => {
+              const idx = sectionIds.indexOf(link.href);
+              const isActive = idx !== -1 && idx === activeIndex;
+              return (
+                <a
+                  key={link.href}
+                  href={`#${link.href}`}
+                  onClick={(e) => handleNavClick(e, link.href)}
+                  className="font-mono text-xs tracking-[0.15em] transition-colors duration-300"
+                  style={{
+                    color: isActive ? 'var(--accent)' : 'var(--text-secondary)',
+                  }}
+                  aria-current={isActive ? 'page' : undefined}
+                >
+                  {link.label}
+                </a>
+              );
+            })}
           </nav>
 
           {/* Resume button */}
@@ -100,7 +111,7 @@ export default function Navbar() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            className="fixed inset-0 z-40 bg-[#0a0a0a]/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8 md:hidden"
+            className="fixed inset-0 z-[140] bg-[#0a0a0a]/95 backdrop-blur-xl flex flex-col items-center justify-center gap-8 md:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -109,7 +120,7 @@ export default function Navbar() {
             {navLinks.map((link, i) => (
               <motion.a
                 key={link.href}
-                href={link.href}
+                href={`#${link.href}`}
                 onClick={(e) => handleNavClick(e, link.href)}
                 className="font-display text-3xl font-light tracking-[0.1em] text-[#8a8580] hover:text-[#f0ede8] transition-colors duration-300"
                 initial={{ opacity: 0, y: 20 }}

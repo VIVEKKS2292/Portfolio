@@ -51,22 +51,16 @@ body {
   overflow: hidden;
 }
 
-/* ─── Custom Scrollbar ─── */
+/* ─── Hide Visible Browser Scrollbar ─── */
+html {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
 ::-webkit-scrollbar {
-  width: 4px;
-}
-
-::-webkit-scrollbar-track {
-  background: var(--bg);
-}
-
-::-webkit-scrollbar-thumb {
-  background: var(--text-muted);
-  border-radius: 2px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-spark);
+  display: none; /* Chrome, Safari, Opera */
+  width: 0px;
+  background: transparent;
 }
 
 /* ─── Section base ─── */

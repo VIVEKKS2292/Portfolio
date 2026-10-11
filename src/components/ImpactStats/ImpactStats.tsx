@@ -48,10 +48,10 @@ export default function ImpactStats() {
   return (
     <section
       ref={ref}
-      className="py-20 md:py-28 px-6 md:px-12 bg-[#111111] border-y border-[#1a1a1a]"
+      className="min-h-full h-full w-full flex flex-col justify-center py-20 md:py-28 px-6 md:px-12 bg-[#111111] border-y border-[#1a1a1a]"
       aria-label="Impact statistics"
     >
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto w-full">
         <motion.p
           className="font-mono text-xs tracking-[0.25em] text-[#4a4744] mb-12 md:mb-16"
           initial={{ opacity: 0 }}
